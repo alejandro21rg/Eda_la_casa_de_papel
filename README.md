@@ -19,6 +19,7 @@ Objetivo principal:
 Determinar si La Casa de Papel se convirtió en la serie española con mayor impacto nacional e internacional de la historia reciente.
 
 Tecnologías utilizadas:
-Python:	Análisis de datos.
-Pandas:	Manipulación de datasets.
-Jupyter: Notebook	Desarrollo del EDA.
+
+- Python:	Análisis de datos.
+- Pandas:	Manipulación de datasets.
+- Jupyter: Notebook	Desarrollo del EDA.
