@@ -457,7 +457,6 @@ plt.close()
 
 print(f"Imagen guardada en: {ruta_imagen}")
 
-
 # Vamos a ver ahora las series españolas a nivel global
 
 # Importamos el csv
