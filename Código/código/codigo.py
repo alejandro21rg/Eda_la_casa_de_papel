@@ -458,4 +458,83 @@ plt.close()
 print(f"Imagen guardada en: {ruta_imagen}")
 
 
+# Vamos a ver ahora las series españolas a nivel global
 
+# Importamos el csv
+netflix_espanolas = pd.read_csv("../data/series_espanolas_netflix_global.csv")
+
+# Agrupamos las series y las ordenamos
+
+netflix_espanolas = (
+     netflix_espanolas.groupby("show_title")["cumulative_weeks_in_top_10"]
+    .max()
+    .sort_values(ascending=False)
+)
+
+# Realizamos el diagrama y guardamos la imagen que se genere
+
+# Top 10 series
+top10 = netflix_espanolas.head(10)
+
+# Estilo claro
+plt.style.use("default")
+
+# Figura
+plt.figure(figsize=(12,7))
+
+# Barras
+bars = plt.barh(
+    top10.index,
+    top10.values,
+    color="#E50914"
+)
+
+# Mayor arriba
+plt.gca().invert_yaxis()
+
+# Título
+plt.title(
+    "Series españolas más vistas en Netflix",
+    fontsize=20,
+    fontweight="bold"
+)
+
+# Eje X
+plt.xlabel(
+    "Semanas acumuladas en Top 10",
+    fontsize=12
+)
+
+# Etiquetas numéricas
+for bar in bars:
+    width = bar.get_width()
+
+    plt.text(
+        width + 0.3,
+        bar.get_y() + bar.get_height()/2,
+        f"{int(width)}",
+        va="center",
+        fontsize=11
+    )
+
+# Cuadrícula suave
+plt.grid(
+    axis="x",
+    linestyle="--",
+    alpha=0.3
+)
+
+# Ajuste
+plt.tight_layout()
+
+# Guardar imagen
+plt.savefig(
+    "../imagenes_diagrama/top_series_espanolas.png",
+    dpi=300,
+    bbox_inches="tight"
+)
+
+# Cerrar figura
+plt.close()
+
+print("Diagrama guardado correctamente")
