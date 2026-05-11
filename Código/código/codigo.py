@@ -545,3 +545,142 @@ plt.savefig(
 plt.close()
 
 print("Diagrama guardado correctamente")
+
+# Vamos a analizar las voloraciones
+# Para ello usaremos dos csv de IMDb
+# Mediante un merge unifico ambos csv
+
+df_idmb_title_basics = pd.read_csv("../data/title.basics.tsv", sep="\t")
+df_idmb_title_ratings = pd.read_csv("../data/title.ratings.tsv", sep="\t")
+
+imdb_completo = pd.merge(df_idmb_title_basics,df_idmb_title_ratings, on="tconst")
+
+series_imdb = imdb_completo[imdb_completo["titleType"] == "tvSeries"]
+
+# Para que se vean titulo, genero, nota y numero de votos
+
+series_final = series_imdb[[
+    "primaryTitle",
+    "startYear",
+    "genres",
+    "averageRating",
+    "numVotes"
+]]
+
+# Ranking global ordenador por votos
+ranking_global = (
+    series_final.sort_values(
+        by="numVotes",
+        ascending=False
+    )
+    .reset_index(drop=True)
+)
+
+# Pongo en un diccionario las series españolas
+
+series_espanolas_nombres = [
+    "Money Heist",
+    "Elite",
+    "Berlin",
+    "Valeria",
+    "Cable Girls",
+    "Toy Boy",
+    "The Snow Girl",
+    "Welcome to Eden",
+    "The Innocent",
+    "Alpha Males"
+]
+
+# Sobre el rankin global, creo un ranking de españolas
+
+ranking_espanolas = ranking_global[
+    ranking_global["primaryTitle"].isin(
+        series_espanolas_nombres
+    )
+]
+
+# Diagrama de dispersión mas autoguardado
+
+import matplotlib.pyplot as plt
+
+# Eliminar duplicados por título
+ranking_unico = (
+    ranking_espanolas
+    .sort_values("numVotes", ascending=False)
+    .drop_duplicates(subset="primaryTitle")
+)
+
+plt.style.use("default")
+
+plt.figure(figsize=(12,8))
+
+# Scatter plot
+plt.scatter(
+    ranking_unico["numVotes"],
+    ranking_unico["averageRating"],
+    s=150,
+    color="#E50914",
+    alpha=0.8
+)
+
+# Etiquetas de cada serie
+for _, row in ranking_unico.iterrows():
+
+    plt.text(
+        row["numVotes"] + 5000,
+        row["averageRating"],
+        row["primaryTitle"],
+        fontsize=10
+    )
+
+# Título
+plt.title(
+    "Popularidad vs valoración de series españolas",
+    fontsize=20,
+    fontweight="bold"
+)
+
+# Etiquetas ejes
+plt.xlabel(
+    "Número de votos IMDb",
+    fontsize=12
+)
+
+plt.ylabel(
+    "Valoración media IMDb",
+    fontsize=12
+)
+
+# Cuadrícula suave
+plt.grid(
+    linestyle="--",
+    alpha=0.3
+)
+
+# Quitar bordes
+ax = plt.gca()
+
+ax.spines["top"].set_visible(False)
+ax.spines["right"].set_visible(False)
+
+
+plt.tight_layout()
+
+# Guardar imagen
+plt.savefig(
+    "../imagenes_diagrama/valoracion_series_espanolas.png",
+    dpi=300,
+    bbox_inches="tight"
+)
+
+plt.close()
+
+print("Diagrama guardado correctamente")
+
+
+
+
+
+
+
+
