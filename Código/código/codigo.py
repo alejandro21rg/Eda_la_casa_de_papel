@@ -463,10 +463,17 @@ print(f"Imagen guardada en: {ruta_imagen}")
 # Importamos el csv
 netflix_espanolas = pd.read_csv("../data/series_espanolas_netflix_global.csv")
 
+# Hay un error en el csv ya que aparece la serie con la version Coreana, la vamos a elmininar
+
+series_espanolas = netflix_espanolas[
+    ~netflix_espanolas["show_title"].isin([
+        "Money Heist: Korea - Joint Economic Area",
+    ])
+]
 # Agrupamos las series y las ordenamos
 
-netflix_espanolas = (
-     netflix_espanolas.groupby("show_title")["cumulative_weeks_in_top_10"]
+series_espanolas = (
+     series_espanolas.groupby("show_title")["cumulative_weeks_in_top_10"]
     .max()
     .sort_values(ascending=False)
 )
@@ -474,7 +481,7 @@ netflix_espanolas = (
 # Realizamos el diagrama y guardamos la imagen que se genere
 
 # Top 10 series
-top10 = netflix_espanolas.head(10)
+top10 = series_espanolas.head(10)
 
 # Estilo claro
 plt.style.use("default")
