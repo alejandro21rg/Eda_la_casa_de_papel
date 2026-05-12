@@ -677,9 +677,81 @@ plt.close()
 print("Diagrama guardado correctamente")
 
 
+# Para ver otro gráfico diferente, importamos squarify
+import squarify
 
+# Eliminar duplicados por título
+ranking_unico = (
+    ranking_espanolas
+    .sort_values("numVotes", ascending=False)
+    .drop_duplicates(subset="primaryTitle")
+)
 
+# Top series
+ranking_unico = ranking_unico.head(8)
 
+# Tamaños
+sizes = ranking_unico["numVotes"]
 
+# Etiquetas
+labels = [
+    f"{title}\n{votes:,}"
+    for title, votes in zip(
+        ranking_unico["primaryTitle"],
+        ranking_unico["numVotes"]
+    )
+]
+
+# Paleta más llamativa y moderna
+colors = [
+    "#E50914",  # Rojo Netflix intenso
+    "#FF4D6D",  # Rosa fuerte
+    "#F77F00",  # Naranja vibrante
+    "#FFD60A",  # Amarillo brillante
+    "#06D6A0",  # Verde turquesa
+    "#118AB2",  # Azul moderno
+    "#8338EC",  # Morado intenso
+    "#EF476F"   # Rosa coral
+]
+
+# Figura
+plt.figure(figsize=(16,8))
+
+# Treemap
+squarify.plot(
+    sizes=sizes,
+    label=labels,
+    color=colors,
+    alpha=0.95,
+    text_kwargs={
+        'fontsize':13,
+        'weight':'bold',
+        'color':'white'
+    }
+)
+
+# Quitar ejes
+plt.axis("off")
+
+# Título
+plt.title(
+    "Popularidad de series españolas en IMDb",
+    fontsize=24,
+    fontweight="bold",
+    pad=20
+)
+
+plt.tight_layout()
+
+# Guardar imagen
+plt.savefig(
+    "../imagenes_diagrama/valoracion_series_espanolas_2.png",
+    dpi=300,
+    bbox_inches="tight"
+)
+
+plt.close()
+
+print("Diagrama guardado correctamente")
 
 
