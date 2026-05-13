@@ -25,7 +25,7 @@ Analizar el impacto internacional de *La Casa de Papel* dentro del catálogo de 
 
 ---
 
-# 🧠 Hipótesis
+# Hipótesis
 
 Se estudiará si La Casa de Papel logró:
 
