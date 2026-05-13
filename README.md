@@ -135,10 +135,7 @@ Eda_la_casa_de_papel/
 │   │   └── titles.csv
 │   │
 │   ├── imagenes_diagrama/
-│   │
-│   ├── notebooks/
-│   │
-│   └── utils/
+│         
 │
 ├── imagenes/
 │
